@@ -1,0 +1,60 @@
+//
+//  PrefixHeader.pch
+//  RXSignIN
+//
+//  Created by srx on 2016/12/1.
+//  Copyright © 2016年 https://github.com/srxboys. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#define SharedAppDelegate ((AppDelegate*)[[UIApplication sharedApplication] delegate])
+
+/*
+ ------ 宽 高 定义 ----
+ */
+#pragma mark ---- 宽 高 定义 --------
+#define ScreenWidth  [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+
+#define NavHeight     64
+#define TabbarHeight  49
+
+//宽高比定义  roundf 四舍五入函数
+#define ActureHeight(_height)  roundf(_height/375.0 * ScreenWidth)
+#define ActureHeightV(_height) roundf(_height/667.0 * ScreenHeight)
+
+/*
+ 简单的frame获取
+ */
+#define X(v)           (v).frame.origin.x
+#define Y(v)           (v).frame.origin.y
+#define WIDTH_GHS(v)   (v).frame.size.width
+#define HEIGHT_GHS(v)  (v).frame.size.height
+
+
+#define UIColorHex(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+// 随机色
+#define UIColorRandom UIColorRGB(arc4random_uniform(256), \
+arc4random_uniform(256), \
+arc4random_uniform(256))
+
+
+#define UIColorRGB(r, g, b)     [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1.0f]
+#define UIColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
+#define UIColorHSL(h, s, l)     [UIColor colorWithHue:(h)/255.0f saturation:(s)/255.0f brightness:(l)/255.0f alpha:1.0f]
+#define UIColorHSLA(h, s, l, a) [UIColor colorWithHue:(h)/255.0f saturation:(s)/255.0f brightness:(l)/255.0f alpha:(a)/]
+
+#define GHS_7f1084_COLOR UIColorRGB(127, 16, 132)
+#define GHS_333_COLOR    UIColorRGB(51 , 51 , 51 )
+#define GHS_666_COLOR    UIColorRGB(102, 102, 102)
+#define GHS_CCCCCC_COLOR UIColorRGB(204, 204, 204)
+#define GHS_227_227_227_COLOR UIColorRGB(227, 227, 227)
+
+
+#endif /* PrefixHeader_pch */
