@@ -11,6 +11,7 @@
 #import "NSDateUtilities.h"
 
 #import "RXSignInViewController.h"
+#define GetImage(_num) [NSString stringWithFormat:@"https://github.com/srxboys/RXSignIN/blob/master/srxboys/%zd.png", _num]
 
 @interface ViewController ()
 {
@@ -71,12 +72,11 @@
         NSString * timeStr = [NSString stringWithFormat:@"%lld", time];
         [sign_listArr addObject:timeStr];
     }
-    
     //签到今天有什么奖励
-    NSDictionary * sign_prizeDic = @{@"five": @{@"type":@"0", @"amount":@"50", @"describe" : @"50人民币", @"image" :@""},
-                                     @"ten" : @{@"type":@"0", @"amount":@"5", @"describe" : @"5元吃的", @"image" :@""},
-                                     @"twenty" : @{@"type":@"0", @"amount":@"10", @"describe" : @"10元玩具", @"image" :@""},
-                                     @"thirty" : @{@"type":@"0", @"amount":@"20", @"describe" : @"20元美女", @"image" :@""}};
+    NSDictionary * sign_prizeDic = @{@"five": @{@"type":@"0", @"amount":@"50", @"describe" : @"50人民币", @"image" :GetImage(50)},
+                                     @"ten" : @{@"type":@"0", @"amount":@"5", @"describe" : @"5元吃的", @"image" :GetImage(5)},
+                                     @"twenty" : @{@"type":@"0", @"amount":@"10", @"describe" : @"10元玩具", @"image" :GetImage(10)},
+                                     @"thirty" : @{@"type":@"0", @"amount":@"20", @"describe" : @"20元美女", @"image" :GetImage(20)}};
     
     //最近签到并且不间断的起始日期 几天
     if(isTodaySign) {
@@ -119,4 +119,9 @@
     [self.navigationController pushViewController:_signINController animated:YES];
     
 }
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [_signDayTextField resignFirstResponder];
+}
+
 @end

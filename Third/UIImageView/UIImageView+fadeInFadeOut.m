@@ -58,7 +58,7 @@
         return; //避免 服务器给nil
     }
     
-    [self sd_setImageWithURL:url  placeholderImage:nil options:SDWebImageRefreshCached | SDWebImageCacheMemoryOnly | SDWebImageRetryFailed | SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
+    [self sd_setImageWithURL:url  placeholderImage:nil options:SDWebImageRefreshCached | SDWebImageCacheMemoryOnly | SDWebImageRetryFailed | SDWebImageLowPriority | SDWebImageAllowInvalidSSLCertificates completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)  {
         
         if (image && cacheType == SDImageCacheTypeNone)  {
             CATransition *fadeIn = [CATransition animation];

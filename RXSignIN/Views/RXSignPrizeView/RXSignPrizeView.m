@@ -109,7 +109,11 @@
         
         RXSignPrizeDayView * dayView = [self viewWithTag:i + 1];
         UIImageView * prizeImg = [self viewWithTag:i + 100];
-        [prizeImg sd_setImageFIFOWithURL:url placeholderImage:[UIImage imageNamed:@""] completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//        [prizeImg sd_setImageFIFOWithURL:url placeholderImage:nil completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//            //如果图片 是可以配置的，这里设置。不过我这是写死的
+//            prizeImg.center = CGPointMake(dayView.center.x, prizeImg.center.y);
+//        }];
+        [prizeImg sd_setImageWithURL:url placeholderImage:nil options:SDWebImageAllowInvalidSSLCertificates  completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
             //如果图片 是可以配置的，这里设置。不过我这是写死的
             prizeImg.center = CGPointMake(dayView.center.x, prizeImg.center.y);
         }];
