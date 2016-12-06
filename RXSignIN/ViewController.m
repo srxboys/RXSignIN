@@ -11,7 +11,8 @@
 #import "NSDateUtilities.h"
 
 #import "RXSignInViewController.h"
-#define GetImage(_num) [NSString stringWithFormat:@"https://github.com/srxboys/RXSignIN/blob/master/srxboys/%zd.png", _num]
+#define GetImage(_num) [NSString stringWithFormat:@"https://raw.githubusercontent.com/srxboys/RXSignIN/master/srxboys/%zd.png", _num]
+
 
 @interface ViewController ()
 {
