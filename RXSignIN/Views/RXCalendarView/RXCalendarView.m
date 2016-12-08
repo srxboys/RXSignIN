@@ -169,20 +169,51 @@
                     
                     NSDate * signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
                     
-                    if([cellDate isEqualToDateIgnoringTime:signDate]) {
-                        model.isSignIn = YES;
-                        signList_row --;
-                    }
-                    else if(cellDate.year > signDate.year) {
+                    
+                    if(cellDate.year > signDate.year) {
                         //当前 年份 > 签到 年份
-                        _signPrize_row++;
+                        signList_row--;
+                        for (; _signPrize_row >= 0; _signPrize_row--) {
+                            signTime = signListArr[signList_row];
+                            if(![signTime strBOOL]) continue;
+                                
+                            signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
+                            if(cellDate.year <= signDate.year) {
+                                break;
+                            }
+                        }
                     }
-                    else if(cellDate.year == signDate.year && cellDate.month > signDate.month){
+                    
+                    if(cellDate.year == signDate.year && cellDate.month > signDate.month){
                         //当前月份 > 签到月份
                         signList_row --;
+                        for (; signList_row >= 0; signList_row--) {
+                            signTime = signListArr[signList_row];
+                            if(![signTime strBOOL]) continue;
+                            
+                            signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
+                            if(cellDate.year == signDate.year && cellDate.month <= signDate.month) {
+                                break;
+                            }
+                        }
                     }
-                    else if(cellDate.year == signDate.year && cellDate.month == signDate.month && cellDate.day > signDate.day){
+                    
+                    if(cellDate.year == signDate.year && cellDate.month == signDate.month && cellDate.day > signDate.day){
                         //当前 月中的日 > 签到 月中的日
+                        signList_row--;
+                        for (; signList_row >= 0; signList_row--) {
+                            signTime = signListArr[signList_row];
+                            if(![signTime strBOOL]) continue;
+                            
+                            signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
+                            if(cellDate.year == signDate.year && cellDate.month == signDate.month && cellDate.day <= signDate.day) {
+                                break;
+                            }
+                        }
+                    }
+                    
+                    if([cellDate isEqualToDateIgnoringTime:signDate]) {
+                        model.isSignIn = YES;
                         signList_row --;
                     }
                     
