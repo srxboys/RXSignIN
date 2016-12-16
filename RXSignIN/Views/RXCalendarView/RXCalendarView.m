@@ -173,7 +173,7 @@
                     if(cellDate.year > signDate.year) {
                         //当前 年份 > 签到 年份
                         signList_row--;
-                        for (; _signPrize_row >= 0; _signPrize_row--) {
+                        for (; signList_row >= 0; signList_row--) {
                             signTime = signListArr[signList_row];
                             if(![signTime strBOOL]) continue;
                                 
@@ -192,7 +192,7 @@
                             if(![signTime strBOOL]) continue;
                             
                             signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
-                            if(cellDate.year == signDate.year && cellDate.month <= signDate.month) {
+                            if(cellDate.year < signDate.year || (cellDate.year == signDate.year && cellDate.month <= signDate.month)) {
                                 break;
                             }
                         }
@@ -206,8 +206,10 @@
                             if(![signTime strBOOL]) continue;
                             
                             signDate = [NSDate dateWithTimeIntervalSince1970:[signTime longLongValue]];
-                            if(cellDate.year == signDate.year && cellDate.month == signDate.month && cellDate.day <= signDate.day) {
+                            if((cellDate.year < signDate.year)||(cellDate.year == signDate.year && cellDate.month < signDate.month) ||( cellDate.year == signDate.year && cellDate.month == signDate.month && cellDate.day <= signDate.day)) {
+                                
                                 break;
+                                
                             }
                         }
                     }
@@ -215,13 +217,13 @@
                     if([cellDate isEqualToDateIgnoringTime:signDate]) {
                         model.isSignIn = YES;
                         signList_row --;
-                    }
-                    
-                    if([signDate isEqualToDateIgnoringTime:nowDate]) {
-                        model.isNowDay = YES;
-                        nowDayIsSignIn = YES;
-                        _currentSelected = i;
-                        _nowDayRow = i;
+                        
+                        if([signDate isEqualToDateIgnoringTime:nowDate]) {
+                            model.isNowDay = YES;
+                            nowDayIsSignIn = YES;
+                            _currentSelected = i;
+                            _nowDayRow = i;
+                        }
                     }
                 }
             }
