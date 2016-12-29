@@ -17,6 +17,11 @@
 #import "RXCalendarView.h"
 #import "RXSignFootDayActivityView.h"
 
+//签到这些天，去评论APP
+#define Prize_Array @[@(5),@(10),@(20),@(30)]
+#define APPOpenURL(_url) [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_url]]
+#define GOTOAPPSTORECOMMEURL @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&id=appID?" //appID ?
+
 @interface RXSignInViewController ()<UIScrollViewDelegate>
 {
     UIScrollView     * _scrollView;
@@ -28,6 +33,7 @@
     BOOL              _nowDayIsSignIn;//_topView 是否签到
     RXSignPrizeView * _prizeView;//奖品
     UILabel          * _nowDateLabel;
+    NSInteger          _Agent_signDay;
     
     RXCalendarView  * _calendarView; //日历
     
@@ -56,11 +62,14 @@
 
 - (void)configUI {
     
+    _Agent_signDay = 0;
+    
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, NavHeight, ScreenWidth, ScreenHeight - NavHeight)];
     _scrollView.delegate = self;
     _scrollView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_scrollView];
     
+    __weak typeof(self)weakSelf = self;
     __weak UIScrollView * bScrollView =  _scrollView;
     CGFloat top = 0;
     _topView = [[RXSignTopView alloc] initWithFrame:CGRectMake(0, top, ScreenWidth, RXSignTopView_height)];
@@ -68,6 +77,7 @@
     [_topView addTarget:self action:@selector(setGignIn)];
     _topView.animalComplete = ^() {
         bScrollView.userInteractionEnabled = YES;
+        [weakSelf isEnableGotoAppStoreForComments];
     };
     [_scrollView addSubview:_topView];
     
@@ -93,7 +103,6 @@
     _nowDateLabel.text = nowDateStr;
     [_scrollView addSubview:_nowDateLabel];
     
-    __weak typeof(self)weakSelf = self;
     
     top += 36;
     _calendarView = [[RXCalendarView alloc] initWithFrame:CGRectMake(0, top, ScreenWidth, CalendarView_Height)];
@@ -157,11 +166,11 @@
 //        }
 //
 //        [weakSelf hiddenNullNetworkView];
-        NSLog(@"\n\n%@\n\n", _falseNetDataDic);
+//        NSLog(@"\n\n%@\n\n", _falseNetDataDic);
 
         NSDictionary * dictionary = _falseNetDataDic;
-        BOOL is_sign = [[dictionary objectForKeyNotNull:@"is_sign"] boolValue];
-        if(is_sign) {
+        _nowDayIsSignIn = [[dictionary objectForKeyNotNull:@"is_sign"] boolValue];
+        if(_nowDayIsSignIn) {
             _topView.is_sign = YES;
             //            [_topView starAnimation];
         }
@@ -172,7 +181,13 @@
         NSDictionary * sign_prize_dic = dictionary[@"sign_prize"];
         //从那天开始签到的，签到了几天
         NSDictionary * sign_history_dic = dictionary[@"sign_history"];
-
+        if([sign_history_dic dictBOOL]) {
+            _Agent_signDay = [[sign_history_dic objectForKeyNotNull:@"sign_duration"] integerValue];
+            if(_nowDayIsSignIn) {
+                _Agent_signDay --;
+            }
+        }
+    
         NSArray * member_day_arr = dictionary[@"member_day"];
 
         //签到 奖品
@@ -221,9 +236,18 @@
     //为了看效果，写了假的网络回传状态
     __weak typeof(self)weakSelf = self;
     if(_falseSignSuccBlock()) {
+        _Agent_signDay = 1000;
         [weakSelf getNetworkDataWithIsShowHud:NO];
     }
     //网络请求部分删除了
+}
+
+- (void) isEnableGotoAppStoreForComments {
+    if(_nowDayIsSignIn) _Agent_signDay ++;
+    if([Prize_Array containsObject:@(_Agent_signDay)]) {
+        
+        APPOpenURL(GOTOAPPSTORECOMMEURL);
+    }
 }
 
 // 某天是否有活动信息
