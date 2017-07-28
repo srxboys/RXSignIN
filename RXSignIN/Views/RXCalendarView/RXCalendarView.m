@@ -88,6 +88,7 @@
         
         if(_startSign>0 && [timeString strBOOL]) {
             startSignDate = [NSDate dateWithTimeIntervalSince1970:[timeString longLongValue]];
+            _startSign = _startSign % 30;
         }
         else {
             startSignDate = nil;
@@ -307,6 +308,20 @@
     
     [_calendarCollection reloadData];
     
+    
+    if(needSignBOOL) {
+        NSInteger prize_Array_count = Prize_Array.count;
+        NSInteger dayLater =[Prize_Array[_signPrize_row%prize_Array_count] integerValue];
+        NSDictionary * prizeDict = [signPrizeDic objectForKeyNotNull:Prize_DicForKey[_signPrize_row%prize_Array_count]];
+        if([prizeDict dictBOOL]) {
+            NSString * prizeDesc = [prizeDict objectForKeyNotNull:@"describe"];
+            
+            //返回给 prizeView
+            needSignBOOL = 0;
+            needPrizeName = prizeDesc;
+            needSignDay = dayLater;
+        }
+    }
     
     //是否 签到 block返回给controller
     /**

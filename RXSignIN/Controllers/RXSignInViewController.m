@@ -42,7 +42,6 @@
     RXSignFootDayActivityView * _footView;
     
     NSString  * _sign_rule_url;//签到规则页面
-    
 }
 
 @end

@@ -229,7 +229,7 @@
         _signButton.enabled = YES;
         _label1.text = [self labelWithSignDay:signInDay];
     }
-    _label2.attributedText = [self labelWithAginSignDay:needSignInDay - signInDay willPrizeName:needPrizeName];
+    _label2.attributedText = [self labelWithAginSignDay:needSignInDay - signInDay % 30 willPrizeName:needPrizeName];
     
     
 }
